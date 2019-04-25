@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<style type="text/css">
+
+/* On mouse hover, lighten state color */
+path:hover {
+  fill-opacity: .7;
+}
+
+/* Style for Custom Tooltip */
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 60px;                  
+  height: 28px;                 
+  padding: 2px;             
+  font-family: "Gill Sans", sans-serif;       
+  background: white;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}
+        
+/* Legend Font Style */
+body {
+  font: 11px Helvetica;
+}
+        
+/* Legend Position Style */
+.legend {
+  position:absolute;
+  font-family: "Gill Sans", sans-serif;
+}
+
+nav {
+  margin-top: 100px;
+}
+
+a {
+  text-decoration: none;
+  color: #222;
+  /*background: rgba(0,0,0,0.05);*/
+  font-size: 14px;
+  border-radius: 10px;
+  padding: 10px 40px;
+  margin: 0px 10px 10px 0px;
+  border-radius: 10px;
+  font-family: 'Gill Sans', sans-serif;
+}
+
+.highlight {
+  transition: all 0.2s;
+  /*border-bottom:2px solid white;*/
+  position: absolute;
+  top:0;
+  background: white;
+  left:0;
+  z-index: -1;
+  border-radius:10px;
+  display: block;
+  box-shadow: 0 0 20px rgb(249,130,134);
+}
+
+.menu {
+  padding: 0;
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  margin: 0;
+}
+
+.menu a {
+  display: inline-block;
+  padding:5px;
+  margin:0 20px;
+  color:black;
+}
+
+.head {
+  font-family: 'Gill Sans', sans-serif;
+  font-size: 3vh;
+  text-transform: uppercase;
+  line-height: 1.1em;
+  color: transparent;
+  background-image: url(https://computersplace.net/images/ios-7-galaxy-2.jpg);  
+  -webkit-background-clip: text;  
+  background-clip: text;
+  }
+
+</style>
+</head>
+<body>
+<div style="top: 5%; left: 34%; position: absolute;">
+    <div class="head">National Festival Distribution from 1850-2019</div>
+</div>
+
+<nav>
+  <ul class="menu">
+    <li><a href="#" class="category" id="All">All</a></li>
+    <li><a href="#" class="category" id="Music">Music</a></li>
+    <li><a href="#" class="category" id="Food">Food</a></li>
+    <li><a href="#" class="category" id="Film">Film</a></li>
+    <li><a href="#" class="category" id="Art">Art</a></li>
+    <li><a href="#" class="category" id="Culture">Culture</a></li>
+    <li><a href="#" class="category" id="Beer">Beer</a></li>
+    <li><a href="#" class="category" id="Other">Other</a></li>
+  </ul>
+</div>
+</nav>
+
+<script type="text/javascript">
+
+/*  This visualization was made possible by modifying code provided by:
+
+Scott Murray, Choropleth example from "Interactive Data Visualization for the Web" 
+https://github.com/alignedleft/d3-book/blob/master/chapter_12/05_choropleth.html   
+    
+Malcolm Maclean, tooltips example tutorial
+http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
+
+Mike Bostock, Pie Chart Legend
+http://bl.ocks.org/mbostock/3888852  */
+
+var body = document.body,
+    html = document.documentElement;
+//Width and height of map
+var height = 500;
+
+var width = Math.max(body.scrollWidth, body.offsetWidth,
+                    html.clientWidth, html.scrollWidth, html.offsetWidth);
+
+console.log(height, width);
+//Create SVG element and append map to the SVG
+var svg = d3.select("body")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+// Append Div for tooltip to SVG
+var div = d3.select("body")
+      .append("div")   
+      .attr("class", "tooltip")               
+      .style("opacity", 0);
+
+// Define linear scale for output
+var color = d3.scale.linear()
+        .range(["rgb(213,222,217)", "rgb(255,179,153)", "rgb(249,130,134)", "rgb(177,119,141)","rgb(98,86,110)"]);
+color.domain([0,1,2,3,4]); // setting the range of the input data
+
+// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
+var legend = d3.select("body").append("svg")
+          .attr("class", "legend")
+          .style("left", function() {
+            return (width/2 + 320) + "px";
+          })
+          .style("top", function() {
+            return "450px";
+          })
+          .attr("width", 140)
+          .attr("height", 200)
+          .selectAll("g")
+          .data(color.domain().slice())
+          .enter()
+          .append("g")
+          .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+var selected_category = 'All';
+console.log(selected_category);
+
+var states_name = {
+  'AK': 'Alaska',
+  'AL': 'Alabama',
+  'AR': 'Arkansas',
+  'AS': 'American Samoa',
+  'AZ': 'Arizona',
+  'CA': 'California',
+  'CO': 'Colorado',
+  'CT': 'Connecticut',
+  'DC': 'District of Columbia',
+  'DE': 'Delaware',
+  'FL': 'Florida',
+  'GA': 'Georgia',
+  'GU': 'Guam',
+  'HI': 'Hawaii',
+  'IA': 'Iowa',
+  'ID': 'Idaho',
+  'IL': 'Illinois',
+  'IN': 'Indiana',
+  'KS': 'Kansas',
+  'KY': 'Kentucky',
+  'LA': 'Louisiana',
+  'MA': 'Massachusetts',
+  'MD': 'Maryland',
+  'ME': 'Maine',
+  'MI': 'Michigan',
+  'MN': 'Minnesota',
+  'MO': 'Missouri',
+  'MP': 'Northern Mariana Islands',
+  'MS': 'Mississippi',
+  'MT': 'Montana',
+  'NA': 'National',
+  'NC': 'North Carolina',
+  'ND': 'North Dakota',
+  'NE': 'Nebraska',
+  'NH': 'New Hampshire',
+  'NJ': 'New Jersey',
+  'NM': 'New Mexico',
+  'NV': 'Nevada',
+  'NY': 'New York',
+  'OH': 'Ohio',
+  'OK': 'Oklahoma',
+  'OR': 'Oregon',
+  'PA': 'Pennsylvania',
+  'PR': 'Puerto Rico',
+  'RI': 'Rhode Island',
+  'SC': 'South Carolina',
+  'SD': 'South Dakota',
+  'TN': 'Tennessee',
+  'TX': 'Texas',
+  'UT': 'Utah',
+  'VA': 'Virginia',
+  'VI': 'Virgin Islands',
+  'VT': 'Vermont',
+  'WA': 'Washington',
+  'WI': 'Wisconsin',
+  'WV': 'West Virginia',
+  'WY': 'Wyoming'
+};
+
+function swap(json){
+  var ret = {};
+  for(var key in json){
+    ret[json[key]] = key;
+  }
+  return ret;
+}
+
+var reverse_states = swap(states_name);
+
+var active_festivals = {};
+var selected_category = "All";
+var max_count = 0;
+var min_count = 100;
+var interval = 0;
+
+// Load in my states data!
+d3.csv("https://gist.githubusercontent.com/WANYIWANG/3cfac7c6759becc16c80a8c721fa0ad0/raw/a129ba0b0a3119715da82984148cf5eb72ea98f2/festival.csv", function(data) {
+
+  // map stores active festivals, keys are state names, values are number of festivals in that state
+  // Loop through each state data value in the .csv file
+  for (var i = 0; i < data.length; i++) {
+
+    if (data[i].status != 'Active') {
+      continue;
+    }
+    //console.log(data[i].status, data[i].state);
+    // Grab State Name
+    var state = data[i].state;
+    if (!(state in active_festivals)) {
+      active_festivals[state] = {'All': 0, 'Music': 0, 'Food': 0, 'Film': 0, 'Art':0, 'Culture': 0, 'Beer': 0, 'Other': 0};
+    }
+    // increment the number of festivals in that state
+    active_festivals[state]['All'] += 1;
+    if (data[i].type in active_festivals[state]) {
+      // increment the number of festivals for the particular type
+      active_festivals[state][data[i].type] += 1;
+    }
+    else {
+      active_festivals[state]['Other'] += 1;
+    }
+  }
+  compute_interval();
+  visualize();
+});
+
+function compute_interval() {
+  min_count = 100;
+  max_count = 0;
+  for (state in active_festivals) {
+    min_count = Math.min(min_count, active_festivals[state][selected_category]);
+    max_count = Math.max(max_count, active_festivals[state][selected_category]);
+  }
+  interval = (max_count - min_count) / 8;
+  console.log(min_count, max_count, interval);
+}
+
+function get_color(state_name) {
+  var state = reverse_states[state_name];
+  if (state in active_festivals && selected_category in active_festivals[state]) {
+    var count = active_festivals[state][selected_category];
+    var rangeValue;
+    if (count == 0) {
+      rangeValue = 0;
+    } else if (count < min_count + interval) {
+      rangeValue = 1;
+    } else if (count < min_count + 3*interval) {
+      rangeValue = 2;
+    } else if (count < min_count + 5*interval) {
+      rangeValue = 3;
+    } else {
+      rangeValue = 4;
+    }
+    return color(rangeValue);
+  } else {
+    //If value is undefined…
+    return "rgb(213,222,217)";
+  }
+}
+
+function get_festival_num(state_name) {
+  var state = reverse_states[state_name];
+  if (state in active_festivals && selected_category in active_festivals[state]) {
+    return active_festivals[state][selected_category];
+  } else {
+    return 0;
+  }
+}
+
+function get_legend_text() {
+  var legendText = [
+    "#festivals = 0",
+    "#festivals < " + Math.ceil(min_count+interval), 
+    "#festivals < " + Math.ceil(min_count+3*interval), 
+    "#festivals < " + Math.ceil(min_count+5*interval), 
+    "#festivals >= " + Math.ceil(min_count+5*interval)
+  ];
+  return legendText;
+}
+
+function switchCategory() {
+  console.log(selected_category);
+  compute_interval();
+  svg.selectAll(".states")
+  .style("fill", function(d) {
+      return get_color(d.properties.name);
+  })
+  .on("mouseover", function(d) {      
+        div.transition()        
+          .duration(200)      
+          .style("opacity", .9);      
+        div.text(function() {
+          var count = get_festival_num(d.properties.name);
+          return d.properties.name + ": " + count;
+        })
+        .style("left", (d3.event.pageX) + "px")     
+        .style("top", (d3.event.pageY - 28) + "px");    
+    });
+
+  legend.select(".legendText")
+          .data(function() {
+            console.log(get_legend_text());
+            return get_legend_text();
+          })
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .text(function(d) { return d; });
+}
+
+var transforms = ["transform",
+                  "msTransform",
+                  "webkitTransform",
+                  "mozTransform",
+                  "oTransform"];
+
+var transformProperty = getSupportedPropertyName(transforms);
+
+function getSupportedPropertyName(properties) {
+    for (var i = 0; i < properties.length; i++) {
+        if (typeof document.body.style[properties[i]] != "undefined") {
+            return properties[i];
+        }
+    }
+    return null;
+}
+
+// follow along nav highlight
+const triggers = document.querySelectorAll('.category');
+const highlight = document.createElement('span');
+
+highlight.classList.add('highlight');
+document.body.appendChild(highlight);
+
+function highlightLink(link) {
+  selected_category = link.id;
+  switchCategory();
+  const linkCoords = link.getBoundingClientRect();
+  const coords = {
+    width: linkCoords.width,
+    height: linkCoords.height,
+    top: linkCoords.top + window.scrollY,
+    left: linkCoords.left + window.scrollX
+  };
+  highlight.style.width = `${coords.width}px`;
+  highlight.style.height = `${coords.height}px`;
+  highlight.style[transformProperty] = `translate(${coords.left}px, ${coords.top}px)`;
+}
+
+function selectCategory(e) {
+  e.preventDefault();
+  highlightLink(this);
+}
+
+[].forEach.call(triggers, (a) => a.addEventListener('click', selectCategory));
+window.addEventListener("resize", function() {
+  var selectedLink = document.querySelector(`#${selected_category}`);
+  highlightLink(selectedLink);
+});
+
+// default = highlight All
+const all = document.querySelector('#All');
+highlightLink(all);
+
+function visualize() {
+  // D3 Projection
+  var projection = d3.geo.albersUsa()
+             .translate([width/2, height/2])    // translate to center of screen
+             .scale([1000]);          // scale things down so see entire US
+          
+  // Define path generator
+  var path = d3.geo.path()    // path generator that will convert GeoJSON to SVG paths
+           .projection(projection);  // tell path generator to use albersUsa projection
+
+  // Load GeoJSON data and merge with states data
+  d3.json("https://gist.githubusercontent.com/WANYIWANG/1ea5be978588e8b5165f29da6ec5feb3/raw/46d9f73e001d6908c050a40a0421b5a134980976/geo-metro.json", function(json) {
+  
+  // convert the geojson us map to the correct formats
+  var us_states = []
+  var state_count = 0;
+  for (var k = 0; k < json.features.length; k++) {
+    var state = json.features[k];
+    if (state["properties"]["ISO3166_2"] in states_name) {
+      state_count += 1;
+      var new_state = {
+        "type": "Feature",
+        "id": state_count + "",
+        "properties": {
+          "name": states_name[state["properties"]["ISO3166_2"]]
+        }, 
+        "geometry": state["geometry"]
+    };
+      us_states.push(new_state);
+    }
+  }
+  //console.log(us_states[0])
+  //console.log(us_states.length);
+
+  // Bind the data to the SVG and create one path per GeoJSON feature
+  svg.selectAll("path")
+    .data(us_states)
+    .enter()
+    .append("path")
+    .attr("d", path)
+    .attr("class", "states")
+    .style("stroke", "#fff")
+    .style("stroke-width", "1")
+    .style("fill", function(d) {
+      return get_color(d.properties.name);
+    })
+    .on("mouseover", function(d) {      
+        div.transition()        
+          .duration(200)      
+          .style("opacity", .9);      
+        div.text(function() {
+          var count = get_festival_num(d.properties.name);
+          return d.properties.name + ": " + count;
+        })
+        .style("left", (d3.event.pageX) + "px")     
+        .style("top", (d3.event.pageY - 28) + "px");    
+    })
+    .on("mouseout", function(d) {       
+          div.transition()        
+             .duration(500)      
+             .style("opacity", 0);   
+    });
+
+     
+      legend.append("rect")
+          .attr("width", 18)
+          .attr("height", 18)
+          .style("fill", color);
+
+      legend.append("text")
+          .attr("class", "legendText")
+          .data(function() {
+            return get_legend_text();
+          })
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .text(function(d) { return d; });
+    });
+}
+</script>
+</body>
+</html>
