@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Memory of Festival</title>
+  </head>
+
+<body>
+
+    <link rel="stylesheet" href="css/style.css">
+
+  <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Wanyi</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#project overview">Project Overview</a>
+                    </li>
+                    <li>
+                        <a href="#intro">Introduction</a>
+                    </li>
+                    <li>
+                        <a href="#dataset">Data Collection</a>
+                    </li>
+                    <li>
+                        <a href="#prototype">Paper and Digital Prototype</a>
+                    </li>
+                    <li>
+                        <a href="#viz">Visualization Process</a>
+                    </li>
+                    <li>
+                        <a href="#usertesting">User Testing</a>
+                    </li>
+                    <li>
+                        <a href="#result">Visualization Result</a>
+                    </li>
+                    <li>
+                        <a href="#reflection">Reflection</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading" id="project overview">
+                        <h1>Memory of Festival in United State</h1>
+                        <hr class="small">
+                        <span class="subheading">Many of us seek community and connection, and there are few things that bring humanity together more than shared experience. Festivals, with their culture appeal and sense of organized gathering, offer this in concentrated form. From cool music to cutting-edge art, every year America supporting a rich amount of festivals. However, it seems like festivals are getting cancelled for one reason or another. The current festival graveyard is filled with bankrupted companies, poor ticket sales, loss of venues, lack of permit, severe weather, and other factors that lead to the cancellation of events. Memory of festival is for showing the tremondance festivals of the United States and to further analyze those festivals that have disappeared or cancelled by various reasons. 
+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    
+ <div class="container">
+        <div class="row">
+            <div class="site-heading" id="intro">
+            <h2 class="text-center" id="link">Introduction</h2>
+            <p>Festival can illustrate different dimensions and cultures, religious in origin, festivals became secular in the early modern period when astute political actors from kings to revolutionaries began to map them onto political activity. In modern society, festivals greatly promote the sense of social cohesion. Many of these celebrations focus on cultural or interest-based themes and seek to promote their traditions to community members. They let community elders share stories and experiences; set up templates to maintain unity between families. By digging into the topic of festival, I find out there are so many festivals have been cancelled or have slipped out of the popular eyes. 
+
+How might we re-recognize and re-pay attention to the festival, and effectively retain the festival culture is an issue worth exploring. In this data visualization project, I simply present some of the insights found in the limited amount of data that I collected.
+</p>
+        </div>
+    </div>
+                
+                
+<div class="container">
+        <div class="row">
+            <h2 class="text-center" id="dataset">Data Collection</h2>
+            <p>I starting by search about dataset, it turns out there is no ready-made and one-time crawlable data online, so I need to manually collect festival data from wikipedia. 
+I looked at some of festivals website page, and careful select the information I need for the next step visualization. The whole data collection process is:
+Festival list in US from Wikipedia → Click into festival website link  → Find basic information  → Add variables into spreadsheet. Nailed it.
+</p>
+        <img src="image/datacollection.GIF" alt="This will display an animated GIF" />
+        <p>I collected 622 lists of data. The reconsidered dataset contains 11 variables:
+Festival name, festival type, state, city, hold month,founded time, statues, reasons of cancellation, summarize of reasons of cancellation, stop time, and festival website link.
+‘Statues’ in here been divided into three groups: Active represent festival still alive in US,
+Inactive means the festival is no longer hold anymore, and the active* festival is unstable festival that disappear for awhile and reactive.
+
+For my second map about disappearing festivals, I also need disappearing festivals geolocation. This part of data I fetched by python using geopy.geocoders. 
+
+I eventually clean the data I got into different categories:
+The first dataset is all festivals I got with 11 variables, the second one is only contains disappearing festival’s (Inactive festival) information with longitude and latitude, the third one is only with state name and how many festivals it has for my first festival distribution map, and the fourth dataset is focus on the cleaned cancel reason of disappearing festivals.
+</p>
+       <img src="image/dataset.png" alt="This will display an image of dataset" height="500" width="1000"/>
+       <p>From the dataset that I collected, I find out some interest part I did not notice before. 
+
+The difference between festival, fest, and fair. 
+The dataset showing diverse name of festivals, for example: there are very clear festival name like Long Beach Blues Festival, also some festival named as ‘HONK!’ that people can not understand what it is directly. The majority festivals name above the term of ‘Fest’, ‘Festival’, or ‘Fair’. In order to avoid ambiguity, I looked for the difference：
+</p>
+       <img src="image/termdifferenciate.png" alt="This will display an image of term" height="700" width="900"/>
+            <p>I unified these three kinds of activities into the category of generalized festival in my visualization, because even though from now fair can not represent as traditional or culture activity now, it can turns into festival by time.
+
+2.  The cancellation of the festival was mainly due to economic issues.
+Fundraising can be a tough thing for new founders. The cancellation of the festival is mainly due to financial situations. When it comes to creating a memorable festival, it must maintain a stable attendance and a strong supplier or support organization. Many festival founders revealed unbalanced revenue and expenditure management after the festival was cancelled.
+</p>
+        </div>
+    </div>
+
+<div class="container">
+        <div class="row">
+            <h2 class="text-center" id="prototype">Paper & Digital Prototype</h2>
+            <p>All the data I collected can lead me to the way to tell what kind of story of festival.
+I begin with paper prototype of the visualization.</p>
+        <img src="image/paper1.jpg" alt="This will display an image of paper prototype" height="500" width="700"/>
+        <img src="image/paper2.jpg" alt="This will display an image of paper prototype" height="500" width="700"/>
+            <p>My first visualize decision is to show a dashboard with interactive legacy besides the festival distribution map, and follow up showing each state’s festival information.
+After consult professionals and peers opinion, I changed it into the dashboard idea into a scrolling page of four parts:
+A general introduction part to show some cancelled festivals and its information; a United State festival distribution by state; a bubble map that display disappearing festivals and its info box; one  state story about cancelled festival.</p>
+       <img src="image/Artboard.png" alt="This will display an image of paper prototype" height="2000" width="700"/>
+            <p>Due to limited data, I cannot find and confirm the unification reason behind the cancellation of the festival, so I replaced the last part with the cancelled festival gallery to show five cancelled festival and the uncovered stories.</p>
+        </div>
+</div>
+               
+<div class="container">
+        <div class="row">
+            <h2 class="text-center" id="viz">Visualization Creation</h2>
+            <p>I decided to use D3.JS in the process of visualization creation. The visualization template was made by modifying code created by:
+Scott Murray, Choropleth example from "Interactive Data Visualization for the Web" https://github.com/alignedleft/d3-book/blob/master/chapter_12/05_choropleth.html Malcolm Maclean, tooltips example tutorial http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html Mike Bostock, Pie Chart Legend http://bl.ocks.org/mbostock/3888852 */
+
+Map Visualization:</p>
+            <img src="image/map1.png" alt="This will display an image of paper prototype" height="500" width="900"/>
+            <p>Map-1: United State Festival Distribution</p>
+            <img src="image/map2.png" alt="This will display an image of paper prototype" height="500" width="900"/>
+            <p>Map-2: United State Cancelled Festival Distribution</p>
+        </div>
+</div>
+               
+<div class="container">
+        <div class="row">
+            <h2 class="text-center" id="usertesting">User Testing</h2>
+            <p>I testing my visualization to peers and professionals, and got some insights for the next stages map exploration.
+In the first map, some of my user told me they do not see the difference between the state with no festival and the state with few festival, and it’s better to show festival with categories like film, music and so on.
+
+For the second  map, I did not add the legacy of circle so users do not know what the size of circles mean, and I need to show the information box while user hover the circles.
+
+For both of the map, I was suggested change the basemap into a more vivid one to show the sense of festival, and reconsider the color of map. 
+
+Another common error in choropleths is the use of raw data values to represent magnitude rather than normalized values to produce a map of densities.
+I understand it’s necessary to normalize the data under map, however, because the festival data is not only within one year, it’s need some time to normalize data in a time range. I will figure it out in my next step.</p>
+        </div>
+</div>
+                
+    <div class="container">
+        <div class="row">
+            <h2 class="text-center" id="result">See the visualizations</h2>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-preview">
+                    <a href="#">
+                        <h2 class="post-title">
+                            <a href="active_festivals.html">Festival in United State by categories</a><br>
+                        </h2>
+                        <h3 class="post-subtitle">
+                            
+                        </h3>
+                    </a>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <a href="#">
+                        <h2 class="post-title">
+                            <a href="inactive_festivals.html">Disappearing Festival in United State</a><br>
+                        </h2>
+                    </a>
+                </div>
+                <hr>
+                <div class="post-preview">
+                    <a href="#">
+                        <h2 class="post-title">
+                            <a href="gallery.html">Cancelled Festival Gallery</a><br>
+                        </h2>
+                        <h3 class="post-subtitle">
+                            
+                        </h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <h2 class="text-center" id="reflection">Reflection</h2>
+            <p>Learn through this advanced visualization project. I have more in-depth understanding of map visualization, such as technical aspects of the normalization of the choropleths map, the use of colors, and how to use the d3.js to display the distribution map, how to replace the basemap merge the key names of the geojson and topojson, and know what part should pay more attention to the legacy when making the map. 
+In storytelling, I learned how to use narrative methods to integrate projects while presenting multidimensional content. Although eventually my storytelling web was not integrated into one page, I learned the importance of function naming. Don't define the same name as the data type, which will make it harder for future search and replacement.
+One more thing is figure out the story before data collection, and do not use too long time to gather data.
+</p>
+        </div>
+</div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer id="Link">
+        <div class="container">
+            <div class="row">
+                <h2 id="contact" class="text-center">Github</h2>
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://github.com/WANYIWANG/us_festival">Visit my Github</a>
+                        </li>
+                        
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; 2019</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    </body>
+</html>

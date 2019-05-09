@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Festival in US</title>
+  
+    <style>body {
+  background: #fff;
+}
+body,
+body > * {
+  margin: 0;
+  padding: 0;
+  font-family: 'Gill Sans', sans-serif;
+  font-weight: normal;
+}
+* {
+  transition: all 0.3s ease 0s;
+}
+/* Colours */
+::selection {
+  background: #000 !important;
+  color: #fff !important;
+}
+::-moz-selection {
+  background: #000 !important;
+  color: #fff !important;
+}
+body > div + div {
+  background: #fff;
+}
+body > div + div article:nth-child(1) {
+  background: rgb(213,222,217);
+}
+body > div + div article:nth-child(2) {
+  background: rgb(255,179,153);
+}
+body > div + div article:nth-child(3) {
+  background: rgb(249,130,134);
+}
+body > div + div article:nth-child(4) {
+  background: rgb(177,119,141);
+}
+body > div + div article:nth-child(5) {
+  background: rgb(98,86,110);
+}
+/* Main layout */
+html,
+body,
+body > div + div {
+  width: 100vw;
+  height: 100vh;
+}
+body > div + div {
+  list-style: none;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  overflow: hidden;
+}
+/* Articles */
+body > div + div article {
+  flex: initial;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  vertical-align: bottom;
+  box-sizing: border-box;
+  padding: 2vh 1vw;
+  position: relative;
+}
+/* Big Headings */
+body > div:first-child {
+  position: fixed;
+  bottom: 10vh;
+  background: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  z-index: 10;
+}
+body > div:first-child h1,
+body > div:first-child h2 {
+  margin: 0;
+  padding: 0;
+}
+/* Hover interaction */
+body > div + div:hover article {
+  flex: initial;
+  width: 10%;
+}
+body > div + div article:hover {
+  width: 70%;
+}
+article > div {
+  opacity: 0;
+  transition: opacity 0.2s ease 0;
+}
+article:hover > div {
+  opacity: 1;
+  transition: opacity 0.3s ease 0.3s;
+}
+/* navigation */
+body > div + div article > h2 {
+  bottom: 2.2vh;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  margin: 0;
+  font-size: 3vh;
+}
+body > div + div:hover article > h2 {
+  bottom: 2.8vh;
+  font-size: 2vh;
+}
+body > div + div article:hover > h2 {
+  bottom: 2.2vh;
+  font-size: 3vh;
+}
+/* Article layouts */
+article > div {
+  text-align: left;
+  width: 205vw;
+  height: auto;
+}
+article > div p,
+article > div h2,
+article > div h3 {
+  margin: 0 0 1em 0;
+  width: 30vw;
+}
+article > div p {
+  width: 55vw;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: uppercase;
+}
+a {
+  color: #fff;
+  text-decoration: none;
+}
+a:after {
+  content: " >";
+}
+a:hover {
+  text-decoration: underline;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.col-6 {
+  width: 50%;
+  float: left;
+}
+/* Mobile */
+@media (max-width: 900px) {
+  body > div + div article {
+    padding: 2vh 3vw;
+  }
+  body > div + div article > h2 {
+    transform: rotate(90deg);
+    bottom: 23vh;
+    min-width: 12em;
+    text-align: left;
+    transform: rotate(-90deg);
+    transform-origin: 0 0 0;
+    opacity: 1;
+  }
+  body > div + div article:hover > h2 {
+    opacity: 0;
+  }
+  article div {
+    max-height: calc(100% - 28vh);
+    overflow-y: auto;
+  }
+  article div article div p {
+    width: 50vw;
+  }
+}
+.gallery {
+  width: 100%;
+  height: 0;
+  padding-top: 40%;
+  box-sizing: border-box;
+  position: relative;
+}
+.gallery .inner {
+  display: grid;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 22px;
+  grid-template-areas: "photo-1 photo-1 photo-2 photo-3 photo-3 photo-4" "photo-5 photo-5 photo-2 photo-3 photo-3 photo-4" "photo-5 photo-5 photo-2 photo-7 photo-8 photo-4" "photo-6 photo-6 photo-6 photo-7 photo-8 photo-9" "photo-6 photo-6 photo-6 photo-7 photo-8 photo-9";
+}
+.gallery .inner div {
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+}
+.gallery .inner div:nth-child(1) {
+  grid-area: photo-1;
+}
+.gallery .inner div:nth-child(2) {
+  grid-area: photo-2;
+}
+.gallery .inner div:nth-child(3) {
+  grid-area: photo-3;
+}
+.gallery .inner div:nth-child(4) {
+  grid-area: photo-4;
+}
+.gallery .inner div:nth-child(5) {
+  grid-area: photo-5;
+}
+.gallery .inner div:nth-child(6) {
+  grid-area: photo-6;
+}
+.gallery .inner div:nth-child(7) {
+  grid-area: photo-7;
+}
+.gallery .inner div:nth-child(8) {
+  grid-area: photo-8;
+}
+.gallery .inner div:nth-child(9) {
+  grid-area: photo-9;
+}
+body > div + div article:nth-child(1) {
+  /* Design */
+}
+body > div + div article:nth-child(1) .gallery .inner div:nth-child(1) {
+  background-image: url("");
+}
+body > div + div article:nth-child(1) .gallery .inner div:nth-child(2) {
+  background-image: url("");
+}
+body > div + div article:nth-child(1) .gallery .inner div:nth-child(3) {
+  background-image: url("https://rachelreveley.co.uk/projects/figleaves_1.jpg");
+}
+body > div + div article:nth-child(1) .gallery .inner div:nth-child(4) {
+  background-image: url("");
+}
+body > div + div article:nth-child(1) .gallery .inner div:nth-child(5) {
+  background-image: url("");
+}
+body > div + div article:nth-child(1) .gallery .inner div:nth-child(6) {
+  background-image: url("https://rachelreveley.co.uk/projects/col_1.jpg");
+}
+body > div + div article:nth-child(1) .gallery .inner div:nth-child(7) {
+  background-image: url("");
+}
+body > div + div article:nth-child(1) .gallery .inner div:nth-child(8) {
+  background-image: url("");
+}
+body > div + div article:nth-child(1) .gallery .inner div:nth-child(9) {
+  background-image: url("");
+}
+body > div + div article:nth-child(2) {
+  /* UX */
+}
+body > div + div article:nth-child(2) .gallery .inner div:nth-child(1) {
+  background-image: url("");
+}
+body > div + div article:nth-child(2) .gallery .inner div:nth-child(2) {
+  background-image: url("");
+}
+body > div + div article:nth-child(2) .gallery .inner div:nth-child(3) {
+  background-image: url("");
+}
+body > div + div article:nth-child(2) .gallery .inner div:nth-child(4) {
+  background-image: url("");
+}
+body > div + div article:nth-child(2) .gallery .inner div:nth-child(5) {
+  background-image: url("");
+}
+body > div + div article:nth-child(2) .gallery .inner div:nth-child(6) {
+  background-image: url("");
+}
+body > div + div article:nth-child(2) .gallery .inner div:nth-child(7) {
+  background-image: url("");
+}
+body > div + div article:nth-child(2) .gallery .inner div:nth-child(8) {
+  background-image: url("");
+}
+body > div + div article:nth-child(2) .gallery .inner div:nth-child(9) {
+  background-image: url("");
+}
+body > div + div article:nth-child(3) {
+  /* FE */
+}
+body > div + div article:nth-child(3) .gallery .inner div:nth-child(1) {
+  background-image: url("https://rachelreveley.co.uk/projects/lovehoney_1.jpg");
+}
+body > div + div article:nth-child(3) .gallery .inner div:nth-child(2) {
+  background-image: url("");
+}
+body > div + div article:nth-child(3) .gallery .inner div:nth-child(3) {
+  background-image: url("https://rachelreveley.co.uk/projects/arcadia_1.jpg");
+}
+body > div + div article:nth-child(3) .gallery .inner div:nth-child(4) {
+  background-image: url("");
+}
+body > div + div article:nth-child(3) .gallery .inner div:nth-child(5) {
+  background-image: url("");
+}
+body > div + div article:nth-child(3) .gallery .inner div:nth-child(6) {
+  background-image: url("");
+}
+body > div + div article:nth-child(3) .gallery .inner div:nth-child(7) {
+  background-image: url("https://rachelreveley.co.uk/projects/byc_1.jpg");
+}
+body > div + div article:nth-child(3) .gallery .inner div:nth-child(8) {
+  background-image: url("https://rachelreveley.co.uk/projects/zoomf_1.jpg");
+}
+body > div + div article:nth-child(3) .gallery .inner div:nth-child(9) {
+  background-image: url("https://rachelreveley.co.uk/projects/localmole_1.jpg");
+}
+body > div + div article:nth-child(4) {
+  /* Out of hours */
+}
+body > div + div article:nth-child(4) .gallery .inner div:nth-child(1) {
+  background-image: url("https://rachelreveley.co.uk/photos/weed-bowl.jpg");
+}
+body > div + div article:nth-child(4) .gallery .inner div:nth-child(2) {
+  background-image: url("https://rachelreveley.co.uk/photos/IMG_5407.jpg");
+}
+body > div + div article:nth-child(4) .gallery .inner div:nth-child(3) {
+  background-image: url("https://rachelreveley.co.uk/photos/dragon-egg-bowl.jpg");
+}
+body > div + div article:nth-child(4) .gallery .inner div:nth-child(4) {
+  background-image: url("https://rachelreveley.co.uk/photos/IMG_1518.JPG");
+}
+body > div + div article:nth-child(4) .gallery .inner div:nth-child(5) {
+  background-image: url("https://rachelreveley.co.uk/photos/IMG_5403.jpg");
+}
+body > div + div article:nth-child(4) .gallery .inner div:nth-child(6) {
+  background-image: url("https://rachelreveley.co.uk/photos/IMG_1586.jpg");
+}
+body > div + div article:nth-child(4) .gallery .inner div:nth-child(7) {
+  background-image: url("https://rachelreveley.co.uk/photos/IMG_5397.jpg");
+}
+body > div + div article:nth-child(4) .gallery .inner div:nth-child(8) {
+  background-image: url("https://rachelreveley.co.uk/photos/IMG_2392.jpg");
+}
+body > div + div article:nth-child(4) .gallery .inner div:nth-child(9) {
+  background-image: url("https://rachelreveley.co.uk/photos/IMG_1597.JPG");
+}
+</style>
+  
+</head>
+
+<body>
+
+  <div><h2>Cancelled Festivals</h2>
+	</div>
+	<div>
+		<article>
+			<h2>The most recent cancelled festival</h2>
+			<div>
+				<h3>The Nederland Music & Arts Festival</h3>
+				<p>The Nederland Music and Arts Festival was an annual three-day outdoor music and arts festival in the music world’s renowned Nederland, Colorado that hosted a wide range of music, from rock and roll to blues, bluegrass to folk and Americana, with a hint or two of jazz. It experienced a short hiatus from 1996 to 1999, 2019 festival been cancelled because of decisions made by the Nederland Board of Trustees and town administration have rendered the ball field unusable.</p>
+<p><b><a href="http://nedfest.org/" target="_blank">Website Link</a></b></p>
+       <div class="gallery">
+          <div class="inner">
+            <img src="http://nedfest.org/wp-content/uploads/2019/03/NFFR-stand-by-fb-sky-banner.jpg" alt="The Nederland Music & Arts Festival" style="width:700px;height:428px;"></div>
+        </div>
+			</div>
+		</article>
+    
+		<article>
+			<h2>Financial effect festival</h2>
+			<div>
+				<h3>Langerado Music Festival</h3>
+				<p>In 2009 the festival was to be moved to Miami, but on February 3, 2009, it was announced that Langerado 2009 would be canceled due to sluggish ticket sales.On June 1, 2011 tickets went on sale for the 2011 festival.[4] The 2011 festival was cancelled again on September 3, 2011 by Boros Entertainment and C3 Presents due to low ticket sales.</p>
+<p><b><a href="https://www.californiadriedplums.org/">Website Link</a></b></p>
+       <div class="gallery">
+          <div class="inner">
+            <img src="http://www.brooklynvegan.com/files/img/music2/langerado2011.jpg" style="width:600px;height:428px;">
+          </div>
+        </div>
+			</div>
+		</article>
+    
+		<article>
+			<h2>Replaced Festival</h2>
+			<div>
+				<h3>ChicagoFest</h3>
+				<p>ChicagoFest, started by mayor Michael Bilandic, was the precursor to the Taste of Chicago. After Bilandic's tenure in office, newly elected Mayor Jane Byrne attempted to end the festival as well as many other programs associated with the former mayor. Many Chicagoans disapproved of Mayor Byrne's attempt to stop the festivities (although attendance at ChicagoFest had begun to wane). She and her successor, Mayor Harold Washington, dedicated more time and energy to promoting the Taste, slowly phasing ChicagoFest out in the process. </p>
+<p><b><a href="https://www.tastesofchicago.com/?gclid=EAIaIQobChMIl8K09djp4QIVmI7ICh0BpQ1-EAAYASAAEgKaevD_BwE">Website Link</a></b></p>       
+       <div class="gallery">
+          <div class="inner">
+          <img src="https://brothertom.files.wordpress.com/2011/10/chicagofest-1982.jpg" alt="ChicagoFest" style="width:700px;height:428px;">
+          </div>
+        </div>
+			</div>
+		</article>
+		<article>
+			<h2>Festival Caused Crime</h2>
+			<div>
+				<h3>Schwagstock</h3>
+				<p>Schwagstock is a music festival that takes place over the course of a weekend in an outdoor setting, and is intended to carry on the vibe of the Woodstock festival. Attendees are allowed to camp anywhere they wish on the campgrounds, and may choose to set up tents or to camp in their vehicles instead. Music is scheduled such that there are several overlapping live music acts between the main stage and the sideshow(s) from early afternoon until early morning. On November 8, 2010, the United States Drug Enforcement Administration filed court documents alleging that the Schwagstock festival is the site of widespread, rampant use and sales of illegal drugs. The agency seized the Camp Zoe property. Since Zoe was shut down at the infamous Spookstock.</p>
+<p><b><a href="http://www.campzoe.com/events.html">Website Link</a></b></p>       
+       <div class="gallery">
+          <div class="inner">
+            <img src="https://bloximages.newyork1.vip.townnews.com/thesalemnewsonline.com/content/tncms/assets/v3/editorial/d/c4/dc4fefe2-a558-11e8-8d89-f3a1d6fa5bf3/5b7c332417471.image.jpg?resize=1200%2C800" alt="Schwagstock" style="width:700px;height:428px;">
+          </div>
+        </div>
+			</div>
+		</article>
+		<article>
+			<h2>Reactive Festival</h2>
+			<div>
+				<h3>Kentucky Derby Festival</h3>
+				<p>Kentucky Derby Festival is a not-for-profit, community organization of 4,000 volunteers who work all year to provide quality entertainment that enhances the Louisville community. After the floods of 1937, the festival was discontinued and it was not until 1956 when the modern-day Kentucky Derby Festival was reborn.</p>
+<p><b><a href="https://discover.kdf.org/about-kdf-2/what-is-the-kentucky-derby-festival/?_ga=2.29161402.749189074.1556143424-1583233258.1556143424" target="_blank">Website Link</a></b></p>
+       <div class="gallery">
+          <div class="inner">
+            <img src="http://louisvilleky.com/wp-content/uploads/2015/04/kentucky_derby_festival_pegasus_parade_2010_4.jpg" alt="Kentucky Derby Festival" style="width:700px;height:428px;">
+          </div>
+        </div>
+			</div>
+		</article>
+	</div>
+
+  
+  
+
+</body>
+
+</html>
